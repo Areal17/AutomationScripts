@@ -1,0 +1,34 @@
+~/Library/Application Support/Knowledge
+
+
+**Pragmatic Programmer**
+
+Pick a non-computer-related problem you currently need to solve. Generate requirements for a noncomputer solution.
+
+Thomas, David. The Pragmatic Programmer . Pearson Education. Kindle-Version. 
+
+Diese Übung sollte ich immer machen. Wie zum Beispiel die Routine am morgen, wenn Moritz in die Schule gebracht wird.
+
+**Routenaufgaben mit Python automatisieren**
+_Reguläre Ausdrücke_
+
+1. Importieren Sie das Regex-Modul mit import re. 
+2. Erstellen Sie mithilfe der Funktion re.compile() ein Regex-Objekt. (Verwenden Sie dazu am besten einen Rohstring.) 
+3. Übergeben Sie den String, den Sie durchsuchen wollen, an die Methode search() des Regex-Objekts. Sie gibt ein Match-Objekt zurück. 
+4. Rufen Sie die Methode group() des Match-Objekts auf, um einen String mit dem übereinstimmenden Text zurückzugeben.
+
+group() gibt eine Tuple zurück aus den einzelen Gruppen des regex-Ausdrucks. Ohne Parameter bekommt man alle Tuple-Werte. Man kann aber auch eine Int-Wert übergeben und bekommet den entsprechenden Teil (wenn eis einen gibt)
+
+**Der Punkt gilt in einem regulären Ausdruck als Jokerzeichen und steht für jedes beliebige Zeichen mit Ausnahme eines Zeilenumbruchs: 
+Deshalb muss man den Punkt maskieren (\.) wenn man nach dem Punkt sucht.**
+
+Mit der Methode sub() ersetzt man den Text, der mit dem regex-Muster übereinstimmt.
+
+someRegexValue = re.compile('foo', re.IGNORECASE | re.DOTALL | re.VERBOSE)
+Man kann mit Pipe mehrere „Fälle“ verinden. 
+
+Sweigart, Al. Routineaufgaben mit Python automatisieren: Praktische Programmierlösungen für Einsteiger (German Edition) (S.181). dpunkt.verlag. Kindle-Version. 
+
+
+
+Coursera -> wiederoder@areal-17.com
