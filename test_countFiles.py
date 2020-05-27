@@ -24,7 +24,7 @@ class TestCountFile(unittest.TestCase):
 
     def test_number_of_new_files(self):
         #test_path = '/Users/ingowie/scripts/db/images.csv'
-        expected = 0
+        expected = 1
         file_objects = get_files('/Users/ingowie/Pictures')
         self.assertEqual(number_of_new_files(file_objects,"/Users/ingowie/Pictures/db"), expected)
 

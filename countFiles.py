@@ -43,6 +43,7 @@ def get_rows_in_csv(absolut_path):
 def number_of_new_files(file_object_list,csv_file):
     """ermittelt die Zahl der Dateien und vergleicht sie mit der Zahl in der CSV Datei. Ist die Zahl größer als in der CSV Datei, dann gibt es neue Dateien"""
     rows_in_csv = get_rows_in_csv(csv_file)
+    #print("In der CSV-Datei: {} im Ordner: {}".format(len(rows_in_csv), len(file_object_list)))
     return len(file_object_list) - len(rows_in_csv)
 
 
@@ -54,23 +55,15 @@ def write_files_to_csv(file_list,csv_file_path):
     """ csv_file_path ist der komplete Pfad zur CSV-Datei """
     #file_list ist Liste mit File-Objekten nicht deren Namen
     field_keys = ["Änderungsdatum","Pfad","Datei","Beschreibung"]
-    csv_rows_content = [] #List mit Dicts
-    row = {}
-    for file in file_list:
-        row[field_keys[0]] = get_file_date(file)
-        row[field_keys[1]] = file.path
-        row[field_keys[2]] = file.name
-        row[field_keys[3]] = ""
-        csv_rows_content.append(row)
     # CSV Datei anlegen
-    # db_path = os.path.join(dir_path, csv_file_path)
     if os.path.exists(csv_file_path) == False:
         os.mkdir(csv_file_path)
         complete_path = os.path.join(csv_file_path, "images.csv")
         with open(complete_path,"w") as csv_file:
             writer = csv.DictWriter(csv_file,fieldnames=field_keys)
             writer.writeheader()
-            writer.writerows(csv_rows_content)
+            for file in file_list:
+                writer.writerow({field_keys[0]: get_file_date(file), field_keys[1]: file.path, field_keys[2]: file.name, field_keys[3]: ""})
             csv_file.close()
 
 
@@ -99,7 +92,7 @@ def main():
         dir_path = sys.argv[1]
         file_objects = get_files(dir_path)
         csv_file_path = os.path.join(dir_path,"db")
-        if not os.path.exists(csv_file_path):
+        if not os.path.exists(os.path.join(csv_file_path,"images.csv")):
             write_files_to_csv(file_objects,csv_file_path)
         else:
             csv_file = os.path.join(csv_file_path,"images.csv")
