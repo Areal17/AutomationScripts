@@ -9,7 +9,7 @@ class TestCountFile(unittest.TestCase):
 
     def test_countfiles_base(self):
         filePath = '/Users/ingowie/scripts'
-        expected = 14
+        expected = 15
         self.assertEqual(len(get_files(filePath)), expected)
     
     def test_remove_file(self):
@@ -25,8 +25,8 @@ class TestCountFile(unittest.TestCase):
     def test_number_of_new_files(self):
         #test_path = '/Users/ingowie/scripts/db/images.csv'
         expected = 1
-        file_objects = get_files('/Users/ingowie/Pictures')
-        self.assertEqual(number_of_new_files(file_objects,"/Users/ingowie/Pictures/db"), expected)
+        file_objects = get_files('/Users/ingowie/Scripts')
+        self.assertEqual(number_of_new_files(file_objects,"/Users/ingowie/Scripts/db"), expected)
 
 
 

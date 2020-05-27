@@ -96,8 +96,9 @@ def main():
             write_files_to_csv(file_objects,csv_file_path)
         else:
             csv_file = os.path.join(csv_file_path,"images.csv")
-            if number_of_new_files(file_objects,csv_file) > 0:
-                update_files_to_csv(file_objects,csv_file_path)  
+            if number_of_new_files(file_objects,csv_file) > 1:
+                update_files_to_csv(file_objects,csv_file_path)
+                print("Neue Dateien vorhanden")
     else:
         print("Pfadname angeben")
         sys.exit(1)
