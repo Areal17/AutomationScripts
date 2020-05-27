@@ -3,12 +3,13 @@ import unittest
 from countFiles import get_files
 from countFiles import remove_hidden_files
 from countFiles import get_rows_in_csv
+from countFiles import number_of_new_files
 
 class TestCountFile(unittest.TestCase):
 
     def test_countfiles_base(self):
         filePath = '/Users/ingowie/scripts'
-        expected = 11
+        expected = 14
         self.assertEqual(len(get_files(filePath)), expected)
     
     def test_remove_file(self):
@@ -20,6 +21,12 @@ class TestCountFile(unittest.TestCase):
         test_path = '/Users/ingowie/scripts/db/images.csv'
         expected = 0
         self.assertEqual(len(get_rows_in_csv(test_path)), expected)
+
+    def test_number_of_new_files(self):
+        #test_path = '/Users/ingowie/scripts/db/images.csv'
+        expected = 0
+        file_objects = get_files('/Users/ingowie/Pictures')
+        self.assertEqual(number_of_new_files(file_objects,"/Users/ingowie/Pictures/db"), expected)
 
 
 

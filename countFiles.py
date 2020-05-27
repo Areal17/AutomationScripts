@@ -3,9 +3,6 @@ import os
 import sys
 import csv
 
-csv_dir_name = "db"
-csv_file_name = "image.csv"
-
 
 def remove_hidden_files(files):
     cleanFiles = []
@@ -32,21 +29,20 @@ def get_files(root_path):
 
 
 def get_rows_in_csv(absolut_path):
-    """liefert die Anzahl der Einträge in CSV-Datei"""
-    content_dict = {}
-    if os.path.exists(absolut_path):
-        with open(absolut_path, "r") as csv_file:
-            content = csv.DictReader(csv_file) # ggf noch delimiter angeben.
-            content_dict = content
+    """liefert die Anzahl der Einträge in CSV-Datei. Parameter ist der Pfad ohne Datei"""
+    content_dict = []
+    complete_path = os.path.join(absolut_path,"images.csv")
+    if os.path.exists(complete_path):
+        with open(complete_path, "r") as csv_file:
+            reader = csv.DictReader(csv_file) # ggf noch delimiter angeben.
+            content_dict = list(reader) #in array umwandeln
             csv_file.close()
     return content_dict
         
 
 def number_of_new_files(file_object_list,csv_file):
     """ermittelt die Zahl der Dateien und vergleicht sie mit der Zahl in der CSV Datei. Ist die Zahl größer als in der CSV Datei, dann gibt es neue Dateien"""
-    absolut_path = sys.argv[1]
-    absolut_path = absolut_path.join(csv_dir_name,csv_file_name)
-    rows_in_csv = get_rows_in_csv(absolut_path)
+    rows_in_csv = get_rows_in_csv(csv_file)
     return len(file_object_list) - len(rows_in_csv)
 
 
@@ -70,7 +66,8 @@ def write_files_to_csv(file_list,csv_file_path):
     # db_path = os.path.join(dir_path, csv_file_path)
     if os.path.exists(csv_file_path) == False:
         os.mkdir(csv_file_path)
-        with open(csv_file_path,"w") as csv_file:
+        complete_path = os.path.join(csv_file_path, "images.csv")
+        with open(complete_path,"w") as csv_file:
             writer = csv.DictWriter(csv_file,fieldnames=field_keys)
             writer.writeheader()
             writer.writerows(csv_rows_content)
@@ -80,8 +77,9 @@ def write_files_to_csv(file_list,csv_file_path):
 def update_files_to_csv(new_files_list,csv_file_path):
     # new_files_list: muss liste aus file_objekten sein!
     """hängt neue Dateien an CSV. csv_file_path ist der komplette Pfad incl. Dateiname"""
+    complete_path = os.path.join(csv_file_path,"images.csv")
     try:
-        with open(csv_file_path, "w+") as csv_file:
+        with open(complete_path, "w+") as csv_file:
             field_keys = ["Änderungsdatum","Pfad","Datei","Beschreibung"]
             writer = csv.writer(csv_file)
             row = {}
@@ -97,17 +95,18 @@ def update_files_to_csv(new_files_list,csv_file_path):
 
 
 def main():
-    try: 
+    if sys.argv[1]:
         dir_path = sys.argv[1]
         file_objects = get_files(dir_path)
-        #number_of_files = len(file_objects)
-        csv_file_path = dir_path.join(csv_dir_name,csv_file_name)
+        csv_file_path = os.path.join(dir_path,"db")
         if not os.path.exists(csv_file_path):
             write_files_to_csv(file_objects,csv_file_path)
         else:
-            update_files_to_csv(file_objects,csv_file_path)
-    except:
-        print("Pfadname fehlt")
+            csv_file = os.path.join(csv_file_path,"images.csv")
+            if number_of_new_files(file_objects,csv_file) > 0:
+                update_files_to_csv(file_objects,csv_file_path)  
+    else:
+        print("Pfadname angeben")
         sys.exit(1)
 
 
