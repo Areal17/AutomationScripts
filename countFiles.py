@@ -50,6 +50,13 @@ def number_of_new_files(file_object_list,csv_file):
 def get_file_date(file_object):
     return os.path.getmtime(file_object.path)
 
+def get_new_files(csv_file_path, file_object_list):
+    objects_in_csv = get_rows_in_csv(csv_file_path)
+    objects_set = set(objects_in_csv)
+    new_files = objects_set.difference_update(file_object_list) # entfernt in Object_set die Elemente,die auch in file_object_list stehen
+    return new_files
+
+
 
 def write_files_to_csv(file_list,csv_file_path):
     """ csv_file_path ist der komplete Pfad zur CSV-Datei """
@@ -97,7 +104,9 @@ def main():
         else:
             csv_file = os.path.join(csv_file_path,"images.csv")
             if number_of_new_files(file_objects,csv_file) > 1:
-                update_files_to_csv(file_objects,csv_file_path)
+                # noch ermitteln, welche file neu sind
+                new_files = get_new_files(csv_file_path,file_objects)
+                update_files_to_csv(new_files,csv_file_path)
                 print("Neue Dateien vorhanden")
     else:
         print("Pfadname angeben")
