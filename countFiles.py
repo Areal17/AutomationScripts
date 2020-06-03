@@ -28,10 +28,10 @@ def get_files(root_path):
     return file_list
 
 
-def get_rows_in_csv(absolut_path):
+def get_rows_in_csv(path_to_csv_file):
     """liefert die Anzahl der Einträge in CSV-Datei. Parameter ist der Pfad ohne Datei"""
     content_dict = []
-    complete_path = os.path.join(absolut_path,"images.csv")
+    complete_path = os.path.join(path_to_csv_file,"images.csv")
     if os.path.exists(complete_path):
         with open(complete_path, "r") as csv_file:
             reader = csv.DictReader(csv_file) # ggf noch delimiter angeben.
