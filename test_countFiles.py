@@ -4,6 +4,7 @@ from countFiles import get_files
 from countFiles import remove_hidden_files
 from countFiles import get_rows_in_csv
 from countFiles import number_of_new_files
+from countFiles import get_new_files
 
 class TestCountFile(unittest.TestCase):
 
@@ -23,11 +24,20 @@ class TestCountFile(unittest.TestCase):
         self.assertEqual(len(get_rows_in_csv(test_path)), expected)
 
     def test_number_of_new_files(self):
-        #test_path = '/Users/ingowie/scripts/db/images.csv'
-        expected = 1
+        test_path = '/Users/ingowie/scripts/db/images.csv'
+        expected = 15
         file_objects = get_files('/Users/ingowie/Scripts')
-        self.assertEqual(number_of_new_files(file_objects,"/Users/ingowie/Scripts/db"), expected)
+        csv_objects = get_rows_in_csv(test_path)
+        self.assertEqual(number_of_new_files(file_objects,csv_objects), expected)
 
+    def test_get_new_files(self):
+        test_path = '/Users/ingowie/scripts/db/images.csv'
+        file_objects = get_files('/Users/ingowie/Scripts')
+        csv_objects = get_rows_in_csv(test_path)
+        new_files = get_new_files(csv_objects,file_objects)
+        expected = 0
+        self.assertEqual(new_files,expected)
+        
 
 
 

@@ -40,9 +40,8 @@ def get_rows_in_csv(path_to_csv_file):
     return content_dict
         
 
-def number_of_new_files(file_object_list,csv_file):
+def number_of_new_files(file_object_list,rows_in_csv):
     """ermittelt die Zahl der Dateien und vergleicht sie mit der Zahl in der CSV Datei. Ist die Zahl größer als in der CSV Datei, dann gibt es neue Dateien"""
-    rows_in_csv = get_rows_in_csv(csv_file)
     #print("In der CSV-Datei: {} im Ordner: {}".format(len(rows_in_csv), len(file_object_list)))
     return len(file_object_list) - len(rows_in_csv)
 
@@ -54,6 +53,7 @@ def get_new_files(objects_in_csv, file_object_list):
     #objects_in_csv = get_rows_in_csv(csv_file_path)
     objects_set = set(objects_in_csv)
     new_files = objects_set.difference_update(file_object_list) # entfernt in Object_set die Elemente,die auch in file_object_list stehen
+    print(new_files)
     return new_files
 
 
@@ -99,13 +99,11 @@ def main():
         dir_path = sys.argv[1]
         file_objects = get_files(dir_path)
         csv_file_path = os.path.join(dir_path,"db")
+        csv_rows = get_rows_in_csv(csv_file_path)
         if not os.path.exists(os.path.join(csv_file_path,"images.csv")):
             write_files_to_csv(file_objects,csv_file_path)
         else:
-            csv_file = os.path.join(csv_file_path,"images.csv")
-            if number_of_new_files(file_objects,csv_file) > 1:
-                # noch ermitteln, welche file neu sind
-                csv_rows = get_rows_in_csv(csv_file_path)
+            if number_of_new_files(file_objects,csv_rows) > 1:
                 new_files = get_new_files(csv_rows,file_objects)
                 update_files_to_csv(new_files,csv_file_path)
                 print("Neue Dateien vorhanden")
