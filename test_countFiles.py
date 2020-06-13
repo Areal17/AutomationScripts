@@ -35,7 +35,7 @@ class TestCountFile(unittest.TestCase):
         file_objects = get_files('/Users/ingowie/Scripts')
         csv_objects = get_rows_in_csv(test_path)
         new_files = get_new_files(csv_objects,file_objects)
-        expected = 0
+        expected = None
         self.assertEqual(new_files,expected)
         
 

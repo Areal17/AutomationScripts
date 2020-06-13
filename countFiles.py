@@ -51,6 +51,7 @@ def get_file_date(file_object):
 
 def get_new_files(objects_in_csv, file_object_list):
     #objects_in_csv = get_rows_in_csv(csv_file_path)
+    """ liefert die neuen Objekte im File-System. None, wenn es keine neuen gibt """
     objects_set = set(objects_in_csv)
     new_files = objects_set.difference_update(file_object_list) # entfernt in Object_set die Elemente,die auch in file_object_list stehen
     print(new_files)
