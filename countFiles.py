@@ -56,7 +56,6 @@ def get_new_files(objects_in_csv, file_object_list):
     csv_values = []
     for object in objects_in_csv:
         csv_values.append(object["Datei"])
-    print(file_object_list)
     new_files = file_objects_set.difference(csv_values)
     return new_files
 
