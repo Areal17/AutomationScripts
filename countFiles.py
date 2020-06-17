@@ -20,7 +20,7 @@ def get_files(root_path):
             if file_object.name.startswith('.'):
                 continue
             if file_object.is_file():
-                file_list.append(file_object)
+                file_list.append(file_object.name)
             elif file_object.is_dir():
                 sub_files = get_files(file_object.path)
                 file_list.extend(sub_files)
@@ -40,21 +40,24 @@ def get_rows_in_csv(path_to_csv_file):
     return content_dict
         
 
-def number_of_new_files(file_object_list,rows_in_csv):
-    """ermittelt die Zahl der Dateien und vergleicht sie mit der Zahl in der CSV Datei. Ist die Zahl größer als in der CSV Datei, dann gibt es neue Dateien"""
-    #print("In der CSV-Datei: {} im Ordner: {}".format(len(rows_in_csv), len(file_object_list)))
-    return len(file_object_list) - len(rows_in_csv)
+# def number_of_new_files(file_object_list,rows_in_csv):
+#     """ermittelt die Zahl der Dateien und vergleicht sie mit der Zahl in der CSV Datei. Ist die Zahl größer als in der CSV Datei, dann gibt es neue Dateien"""
+#     #print("In der CSV-Datei: {} im Ordner: {}".format(len(rows_in_csv), len(file_object_list)))
+#     return len(file_object_list) - len(rows_in_csv)
 
 
 def get_file_date(file_object):
     return os.path.getmtime(file_object.path)
 
 def get_new_files(objects_in_csv, file_object_list):
-    #objects_in_csv = get_rows_in_csv(csv_file_path)
     """ liefert die neuen Objekte im File-System. None, wenn es keine neuen gibt """
-    objects_set = set(objects_in_csv)
-    new_files = objects_set.difference_update(file_object_list) # entfernt in Object_set die Elemente,die auch in file_object_list stehen
-    print(new_files)
+    file_objects_set = set(file_object_list)
+    # file_object_list macht die Probleme. Was ist <DirEntry...>?
+    csv_values = []
+    for object in objects_in_csv:
+        csv_values.append(object["Datei"])
+    print(file_object_list)
+    new_files = file_objects_set.difference(csv_values)
     return new_files
 
 
@@ -104,8 +107,8 @@ def main():
         if not os.path.exists(os.path.join(csv_file_path,"images.csv")):
             write_files_to_csv(file_objects,csv_file_path)
         else:
-            if number_of_new_files(file_objects,csv_rows) > 1:
-                new_files = get_new_files(csv_rows,file_objects)
+            new_files = get_new_files(csv_rows,file_objects)
+            if len(new_files) > 1:
                 update_files_to_csv(new_files,csv_file_path)
                 print("Neue Dateien vorhanden")
     else:
