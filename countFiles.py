@@ -17,7 +17,7 @@ def get_files(root_path):
     file_list = []
     with os.scandir(root_path) as root_dir:
         for file_object in root_dir:
-            if file_object.name.startswith('.'):
+            if file_object.name.startswith('.') or file_object.name.endswith("\r"):
                 continue
             if file_object.is_file():
                 file_list.append(file_object.name)
