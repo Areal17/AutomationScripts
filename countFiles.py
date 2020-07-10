@@ -2,6 +2,7 @@
 import os
 import sys
 import csv
+import datetime
 
 
 field_keys = ["Änderungsdatum","Pfad","Datei","Beschreibung", "Copyright"]
@@ -49,7 +50,9 @@ def get_rows_in_csv(path_to_csv_file):
 
 
 def get_file_date(file_object):
-    return os.path.getmtime(file_object.path)
+    modifyDate = os.path.getmtime(file_object.path)
+    formatedDate = datetime.datetime.fromtimestamp(modifyDate).strftime('%Y.%m.%d')
+    return  formatedDate
 
 def get_new_files(objects_in_csv, file_object_list):
     """ liefert die neuen Objekte im File-System. None, wenn es keine neuen gibt """
