@@ -70,15 +70,15 @@ def write_files_to_csv(file_list,csv_file_path):
     """ csv_file_path ist der komplete Pfad zur CSV-Datei """
     #file_list ist Liste mit File-Objekten nicht deren Namen
     # CSV Datei anlegen
+    complete_path = os.path.join(csv_file_path, "images.csv")
     if os.path.exists(csv_file_path) == False:
         os.mkdir(csv_file_path)
-        complete_path = os.path.join(csv_file_path, "images.csv")
-        with open(complete_path,"w") as csv_file:
-            writer = csv.DictWriter(csv_file,fieldnames=field_keys)
-            writer.writeheader()
-            for file in file_list:
-                writer.writerow({field_keys[0]: str(get_file_date(file)), field_keys[1]: file.name, field_keys[2]: "", field_keys[3]: "", field_keys[4]: ""})
-            csv_file.close()
+    with open(complete_path,"w") as csv_file:
+        writer = csv.DictWriter(csv_file,fieldnames=field_keys)
+        writer.writeheader()
+        for file in file_list:
+            writer.writerow({field_keys[0]: str(get_file_date(file)), field_keys[1]: file.name, field_keys[2]: "", field_keys[3]: "", field_keys[4]: ""})
+        csv_file.close()
 
 # BUG: überschreibt Inhalt mit dem Header
 def update_files_to_csv(new_files_list,csv_file_path):
@@ -86,7 +86,7 @@ def update_files_to_csv(new_files_list,csv_file_path):
     """hängt neue Dateien an CSV. csv_file_path ist der komplette Pfad incl. Dateiname"""
     complete_path = os.path.join(csv_file_path,"images.csv")
     try:
-        with open(complete_path, "w+") as csv_file:
+        with open(complete_path, "a") as csv_file:
             writer = csv.DictWriter(csv_file,fieldnames=field_keys)
             for new_file in new_files_list:
                writer.writerow({field_keys[0]: str(get_file_date(new_file)), field_keys[1]: new_file.name, field_keys[1]: "", field_keys[3]: "", field_keys[4]: ""}) 
@@ -105,6 +105,7 @@ def main():
             write_files_to_csv(file_objects,csv_file_path)
         else:
             new_files = get_new_files(csv_rows,file_objects)
+            print("Aha")
             if len(new_files) > 1:
                 update_files_to_csv(new_files,csv_file_path)
                 print("Neue Dateien vorhanden")
