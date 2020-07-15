@@ -5,7 +5,7 @@ import csv
 import datetime
 
 
-field_keys = ["Änderungsdatum","Pfad","Datei","Beschreibung", "Copyright"]
+field_keys = ["Änderungsdatum","Datei","Beschreibung","Copyright", "Verwendung"]
 
 def remove_hidden_files(files):
     cleanFiles = []
@@ -77,7 +77,7 @@ def write_files_to_csv(file_list,csv_file_path):
             writer = csv.DictWriter(csv_file,fieldnames=field_keys)
             writer.writeheader()
             for file in file_list:
-                writer.writerow({field_keys[0]: str(get_file_date(file)), field_keys[1]: file.path, field_keys[2]: file.name, field_keys[3]: "", field_keys[4]: ""})
+                writer.writerow({field_keys[0]: str(get_file_date(file)), field_keys[1]: file.name, field_keys[2]: "", field_keys[3]: "", field_keys[4]: ""})
             csv_file.close()
 
 # BUG: überschreibt Inhalt mit dem Header
@@ -89,7 +89,7 @@ def update_files_to_csv(new_files_list,csv_file_path):
         with open(complete_path, "w+") as csv_file:
             writer = csv.DictWriter(csv_file,fieldnames=field_keys)
             for new_file in new_files_list:
-               writer.writerow({field_keys[0]: str(get_file_date(new_file)), field_keys[1]: new_file.path, field_keys[2]: new_file.name, field_keys[3]: "", field_keys[4]: ""}) 
+               writer.writerow({field_keys[0]: str(get_file_date(new_file)), field_keys[1]: new_file.name, field_keys[1]: "", field_keys[3]: "", field_keys[4]: ""}) 
             csv_file.close()
     except:
         print("unable to open file")
