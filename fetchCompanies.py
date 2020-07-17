@@ -26,3 +26,4 @@ def fetch_website_at_url(the_URL):
 companies = fetch_website_at_url(wiki_url)
 for company in companies:
     print(company) 
+print(len(companies))
