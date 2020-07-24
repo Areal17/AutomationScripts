@@ -5,8 +5,10 @@ import sys
 import mysql.connector
 import private_module.database_handler as db
 
-database_handler = db.DatabaseHandler()
 
+
+if __name__ == "__name__":
+    database_handler = db.DatabaseHandler()
 
 
 

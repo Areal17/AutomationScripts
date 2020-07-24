@@ -1,7 +1,8 @@
 import os
 import sys
 import mysql.connector
-import credetials
+import private_module.credetials as credetials
+
 
 
 class DatabaseHandler:
