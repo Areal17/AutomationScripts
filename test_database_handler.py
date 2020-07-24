@@ -9,7 +9,16 @@ class TestDatabaseHandler(unittest.TestCase):
         input = ["Alpha","Beta","Gamma"]
         expected = "Alpha, Beta, Gamma"
         result = db_handler.combined_elements(input)
-        self.assertEquals(result,expected, "It works")
+        self.assertEqual(expected,result)
+        db_handler.close_connection()
+
+    def test_get_data(self):
+        db_handler = DatabaseHandler()
+        input = ("SELECT Projekttitel, Kurzbezeichnung FROM VarioProjects")
+        result = db_handler.select_data_from_string(input)
+        print(result)
+        self.assertFalse(result)
+
 
     
 if __name__ == "__main__":

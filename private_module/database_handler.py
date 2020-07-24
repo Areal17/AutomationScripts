@@ -10,9 +10,9 @@ class DatabaseHandler:
 
     def __init__(self):
         """ Initializer. Create connection to database. The credetials are stored in credetial.py where implemented the credetial_for_db() function """
-        host, user, password = credetials.credetials_for_db()
+        the_host, the_user, the_password, the_database = credetials.credetials_for_db()
         try:
-            self.connection = mysql.connector.connect(host=host,user=user,password=password)
+            self.connection = mysql.connector.connect(host=the_host,user=the_user,password=the_password,database=the_database,use_pure=True)
         except mysql.connector.Error as err:
             if err.errno == mysql.connector.errorcode.ER_ACCESS_DENIED_ERROR_WITH_PASSWORD:
                 print("something is wrong with username or password")
@@ -20,8 +20,6 @@ class DatabaseHandler:
                 print("database don't exists")
             else:
                 print(err)
-        else:
-            self.connection.close()
 
     
     def combined_elements(self,list_object):
@@ -44,7 +42,7 @@ class DatabaseHandler:
         query = ("SELECT %s FROM %s "
                  "%s"
                  "WHERE %s")
-        cursor.execute(query,tables_string,colls_string,join_clause,where_clause)
+        cursor.execute(query,(tables_string,colls_string,join_clause,where_clause))
         result = cursor
         cursor.close()
         return result
@@ -57,6 +55,18 @@ class DatabaseHandler:
         cursor.execute(query_string)
         result = cursor
         cursor.close()
+        return result
+
+    def select_test_data(self):
+        cursor = self.connection.cursor()
+        result = []
+        theID = 11
+        # query = ("SELECT AZii3, Kurzbezeichnung, Projektstandort FROM VarioProjects "
+        #          "WHERE id={}".format(theID))
+        query = ("SELECT AZii3, Kurzbezeichnung, Projektstandort FROM VarioProjects ")
+        cursor.execute(query,2)
+        for (AZii3, Kurzbezeichnung, Projektstandort) in cursor:
+            result.append((AZii3, Kurzbezeichnung, Projektstandort))
         return result
 
 
