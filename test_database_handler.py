@@ -23,11 +23,13 @@ class TestDatabaseHandler(unittest.TestCase):
         self.assertEqual(columns,result)
 
     def test_select_data(self):
-        tables = tables = ["VarioProjects"]
+        tables = ["VarioProjects"]
         columns = ["Projekttitel", "Kurzbezeichnung", "Bauherr"]
         fetched_result = self.db_handler.select_data(tables,columns)
         result = list(fetched_result)
         self.assertEqual(19,len(result))
+
+
 
     
 
