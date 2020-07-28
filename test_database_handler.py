@@ -29,7 +29,32 @@ class TestDatabaseHandler(unittest.TestCase):
         result = list(fetched_result)
         self.assertEqual(19,len(result))
 
+    def test_select_join(self):
+        tables = ["VarioProjects"]
+        columns = ["VarioProjects.Kurzbezeichnung", "VarioBuildingCosts.KG_300_t0", "VarioBuildingCosts.KG_300_t0"]
+        join = "VarioBuildingCosts ON VarioProjects.id = VarioBuildingCosts.projectID"
+        fetched_result = self.db_handler.select_data(tables,columns,join_clause=join)
+        result = list(fetched_result)
+        self.assertEqual(19,len(result))
 
+    
+    def test_select_string(self):
+        query = """ SELECT
+                        VarioBuildingCosts.KG_300_t3,
+                        VarioBuildingCosts.KG_300_t2,
+                        VarioBuildingCosts.KG_300_t1,
+                        VarioBuildingCosts.KG_300_t0,
+                        VarioBuildingCosts.KG_400_t3,
+                        VarioBuildingCosts.KG_400_t2,
+                        VarioBuildingCosts.KG_400_t1,
+                        VarioBuildingCosts.KG_400_t0
+                    FROM
+                        VarioBuildingCosts
+                    WHERE
+                        VarioBuildingCosts.projectId = 7; """
+        fetched_result = self.db_handler.select_data_from_string(query)
+        result = list(fetched_result)
+        self.assertEqual(1, len(result))
 
     
 

@@ -35,10 +35,11 @@ class DatabaseHandler:
 
     
     def select_data(self,tables,colls=['*'],join_clause=None,where_clause=None):
+        """ tables and columns as list, where clause as string (without WHERE) and join_clause as string (without JOIN or LEFT JOIN) """
         cursor = self.connection.cursor(dictionary=True)
         tables_string = self.combined_elements(tables)
         colls_string = self.combined_elements(colls)
-        join_string = join_clause if join_clause != None else ""
+        join_string = "LEFT JOIN " + join_clause if join_clause != None else ""
         where_string = "WHERE " + where_clause if where_clause != None else ""
         result = []
         query = "SELECT {colls} FROM {tables} {join} {where}".format(colls=colls_string,tables= tables_string,join=join_string,where=where_string)
@@ -53,10 +54,11 @@ class DatabaseHandler:
 
     def select_data_from_string(self,query_string):
         """ Use this, when the query is complex. The Argument is a string """
-        result = None
-        cursor = self.connection.cursor()
+        result = []
+        cursor = self.connection.cursor(dictionary=True)
         cursor.execute(query_string)
-        result = cursor
+        for row in cursor:
+            result.append(row)
         cursor.close()
         return result
 
