@@ -35,15 +35,18 @@ class DatabaseHandler:
 
     
     def select_data(self,tables,colls=['*'],join_clause=None,where_clause=None):
-        cursor = self.connection.cursor()
+        cursor = self.connection.cursor(dictionary=True)
         tables_string = self.combined_elements(tables)
         colls_string = self.combined_elements(colls)
-        result = None
-        query = ("SELECT %s FROM %s "
-                 "%s"
-                 "WHERE %s")
-        cursor.execute(query,(tables_string,colls_string,join_clause,where_clause))
-        result = cursor
+        join_string = join_clause if join_clause != None else ""
+        where_string = "WHERE " + where_clause if where_clause != None else ""
+        result = []
+        query = "SELECT {colls} FROM {tables} {join} {where}".format(colls=colls_string,tables= tables_string,join=join_string,where=where_string)
+        print(query)
+        cursor.execute(query)
+        # for-lop needed because cursor.close()
+        for row in cursor:
+            result.append(row)
         cursor.close()
         return result
     
@@ -60,13 +63,11 @@ class DatabaseHandler:
     def select_test_data(self):
         cursor = self.connection.cursor()
         result = []
-        theID = 11
-        # query = ("SELECT AZii3, Kurzbezeichnung, Projektstandort FROM VarioProjects "
-        #          "WHERE id={}".format(theID))
         query = ("SELECT AZii3, Kurzbezeichnung, Projektstandort FROM VarioProjects ")
         cursor.execute(query,2)
         for (AZii3, Kurzbezeichnung, Projektstandort) in cursor:
             result.append((AZii3, Kurzbezeichnung, Projektstandort))
+        cursor.close()
         return result
 
 
