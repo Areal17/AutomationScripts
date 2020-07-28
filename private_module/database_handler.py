@@ -8,9 +8,20 @@ import private_module.credetials as credetials
 class DatabaseHandler:
     connection = None
 
-    def __init__(self):
-        """ Initializer. Create connection to database. The credetials are stored in credetial.py where implemented the credetial_for_db() function """
-        the_host, the_user, the_password, the_database = credetials.credetials_for_db()
+    # def __init__(self):
+    #     """ Initializer. Create connection to database. The credetials are stored in credetial.py where implemented the credetial_for_db() function """
+    #     the_host, the_user, the_password, the_database = credetials.credetials_for_db()
+    #     try:
+    #         self.connection = mysql.connector.connect(host=the_host,user=the_user,password=the_password,database=the_database,use_pure=True)
+    #     except mysql.connector.Error as err:
+    #         if err.errno == mysql.connector.errorcode.ER_ACCESS_DENIED_ERROR_WITH_PASSWORD:
+    #             print("something is wrong with username or password")
+    #         elif err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
+    #             print("database don't exists")
+    #         else:
+    #             print(err)
+
+    def __init__(self,the_host,the_user,the_password,the_database):
         try:
             self.connection = mysql.connector.connect(host=the_host,user=the_user,password=the_password,database=the_database,use_pure=True)
         except mysql.connector.Error as err:
@@ -20,7 +31,6 @@ class DatabaseHandler:
                 print("database don't exists")
             else:
                 print(err)
-
     
     def combined_elements(self,list_object):
         """ Combined elements in list_object to comma-separated string """

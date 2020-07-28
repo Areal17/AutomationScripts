@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 import unittest
 from private_module.database_handler import DatabaseHandler
+from private_module.credetials import credetials_for_db
 
 
 class TestDatabaseHandler(unittest.TestCase):
     
     def setUp(self):
-        self.db_handler = DatabaseHandler()
+        host, user, password, database = credetials_for_db()
+        self.db_handler = DatabaseHandler(host,user,password,database)
 
     def test_combine_string(self):
         input = ["Alpha","Beta","Gamma"]
