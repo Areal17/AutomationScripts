@@ -1,6 +1,8 @@
 import smtplib
 import ssl
 import private_module.credetials as credetials
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
 class EmailHandler:
@@ -20,10 +22,23 @@ class EmailHandler:
 
     def sendMail(self):
         receiver_mail = "wiederoder@areal-17.com"
-        message = """\
-            Subject: Hallo Ingo 
+        #Multipart - für mehrere MIME-Typen
+        message = MIMEMultipart("alternative")
+        message["Subject"] = "Mail von Python"
+        message["From"] = "BFVario_Newsletter@htw-berlin.de"
+        message["To"] = receiver_mail
+        # Message kann auch HTML enthalten
+        text = """\
+            Hallo Ingo
 
-            Ich habe es offensichtlich geschaft. Ein Mail ging raus """
+            Dies Mail ist per Script verschickt worden. Wenn du dies liest, hat das Script funktioniert.
+
+            VG
+            Python-Script
+            """
+        # MimeText erzeugen 
+        mail_text = MIMEText(text)
+        message.attach(mail_text)
         print(self.sender_mail)
         try:
             server = smtplib.SMTP("smtp.1und1.de", self.port)
@@ -31,12 +46,8 @@ class EmailHandler:
             server.starttls(context=self.context)
             server.ehlo()
             server.login(self.sender_mail,self.password)
-            server.sendmail(self.sender_mail,receiver_mail,message)
+            server.sendmail(self.sender_mail,receiver_mail,message.as_string())
         except Exception as expection:
             print(expection)
         finally:
             server.quit()
-        
-        # with smtplib.SMTP_SSL("smtp.1und1.com",self.port, context=self.context) as server:
-        #     server.login(self.sender_mail,self.password)
-        #     server.sendmail(self.sender_mail,receiver_mail,message)
