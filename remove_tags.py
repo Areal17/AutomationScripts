@@ -17,15 +17,15 @@ def clean_text(filepath):
 
 def files_in_folder(folder_path):
 	''' recursive function which list files in given folder and return filenames with complete path as list inclusive subfolders '''
-	folder_paths = []
+	file_paths = []
 	files = os.listdir(folder_path)
 	for file in files:
 		if os.path.isdir(file):
 			paths = files_in_folder(file)
-			folder_paths.extend(paths)
+			file_paths.extend(paths)
 		file_path = folder_path + '/' + file
-		folder_paths.append(file_path)
-	return folder_paths	
+		file_paths.append(file_path)
+	return file_paths	
 
 
 if __name__ == "__main__":
