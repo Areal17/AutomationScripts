@@ -5,12 +5,14 @@ import os
 
 # Code ist vom Google Assesment
 
+
 def process_csv(csv_file):
     """Turn the contents of the CSV file into a list of lists"""
     print("Processing {}".format(csv_file))
-    with open(csv_file,"r") as datafile:
+    with open(csv_file, "r") as datafile:
         data = list(csv.reader(datafile))
     return data
+
 
 def data_to_html(title, data):
     """Turns a list of lists into an HTML table"""
@@ -39,7 +41,6 @@ td, th {
 </head>
 <body>
 """
-
 
     # Add the header part with the given title
     html_content += "<h2>{}</h2><table>".format(title)
